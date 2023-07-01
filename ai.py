@@ -1,7 +1,9 @@
 import openai
 
+from config import API_KEY
 
-openai.api_key = "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"
+
+openai.api_key = API_KEY
 
 
 class PassageFlashcards:
