@@ -28,6 +28,7 @@ def home():
 def process_passage():
     # Retrieve the form data
     passage_content = request.form['passage']
+    screen_resolution = request.form['screenResolution']
 
     passage_and_flashcards = PassageToCards(passage_content)
     passage_and_flashcards.commit_passage_and_flashcards()
