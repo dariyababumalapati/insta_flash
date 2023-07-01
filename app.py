@@ -1,15 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_bootstrap import Bootstrap
 
-from ai import PassageFlashcards
-
 from database_actions import save_flashcards_to_database, copy_flashcards_to_study, get_random_flashcard
 
-
-from database_models import db, Passage, Study
-from process_answer import process_answer
+from database_models import db, Study
 
 from passage_class import PassageToCards
+
+from process_answer import process_answer
+
 
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = 'insta_flash'  # Replace with your own secret key
@@ -33,11 +32,7 @@ def process_passage():
     passage_and_flashcards = PassageToCards(passage_content)
     passage_and_flashcards.commit_passage_and_flashcards()
 
-    copy_flashcards_to_study(passage_and_flashcards.passage_id)
-
-    num_flashcards = len(passage_and_flashcards.flashcard_transients)  # Get the number of flashcards created
-    
-    return render_template('result.html', numb_flashcards=num_flashcards)
+    return render_template('result.html', numb_flashcards=passage_and_flashcards.num_flashcards)
 
 @app.route('/study')
 def study():
