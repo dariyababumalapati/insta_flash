@@ -1,0 +1,12 @@
+p.text-center.mt-4 {
+    margin-top: 90px;
+    margin-bottom: 60px;
+}
+
+button.btn.btn-primary { 
+    margin-top: 100px;
+}
+
+button.btn.btn-danger { 
+    margin-left: 50px;
+}

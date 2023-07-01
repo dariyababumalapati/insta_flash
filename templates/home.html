@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+    <div class="container">
+        <h1>Welcome to Flash Cards</h1>
+        <p>Create and study flash cards instantly!</p>
+
+        <form method="POST" action="{{ url_for('process_passage') }}">
+            <div class="form-group">
+                <label for="passage">Enter the passage:</label>
+                <textarea class="form-control" id="passage" name="passage" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}

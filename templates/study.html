@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/study.css') }}">
+    <p class="text-left" style="font-size: 12px;">Cards to Study: {{ total_flashcards }}</p>
+    <div class="container mt-4">
+        {% if flashcard %}
+            <p class="text-center" style="font-size: 24px;">{{ flashcard.question }}</p>
+            <hr>
+            <div id="answer" {% if not show_answer %}style="display: none;"{% endif %}>
+                <p class="text-center mt-4" style="font-size: 24px;">{{ flashcard.answer }}</p>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="button" class="btn btn-primary" id="show-answer-btn">Show Answer</button>
+            </div>
+
+            <form method="POST" action="{{ url_for('process_answer_route', card_id=flashcard.id) }}" class="text-center mt-4">
+                {% if show_answer %}
+                    <div class="mb-4">
+                        <button type="submit" class="btn btn-success mr-2" name="action" value="right">Right</button>
+                        <button type="submit" class="btn btn-danger" name="action" value="wrong">Wrong</button>
+                    </div>
+                {% endif %}
+            </form>
+        {% else %}
+            <p class="text-center">No flashcards available for study.</p>
+        {% endif %}
+    </div>
+
+    <!-- <script>
+        document.getElementById('show-answer-btn').addEventListener('click', function() {
+            document.getElementById('show-answer-btn').style.display = 'none';
+            document.getElementById('answer').style.display = 'block';
+            
+            var rightBtn = document.createElement('button');
+            rightBtn.setAttribute('type', 'submit');
+            rightBtn.setAttribute('class', 'btn btn-success mr-2');
+            rightBtn.setAttribute('name', 'action');
+            rightBtn.setAttribute('value', 'right');
+            rightBtn.textContent = 'Right';
+    
+            var wrongBtn = document.createElement('button');
+            wrongBtn.setAttribute('type', 'submit');
+            wrongBtn.setAttribute('class', 'btn btn-danger');
+            wrongBtn.setAttribute('name', 'action');
+            wrongBtn.setAttribute('value', 'wrong');
+            wrongBtn.textContent = 'Wrong';
+    
+            var form = document.querySelector('form');
+            form.appendChild(rightBtn);
+            form.appendChild(wrongBtn);
+        });
+    </script> -->
+    <script src="static/js/study.js"></script>
+{% endblock %}

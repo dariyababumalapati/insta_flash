@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+    <div class="text-center mt-5">
+        <h2>Flash Cards Created: {{ numb_flashcards }}</h2>
+        <hr>
+
+        <h3 class="my-5">Study The Flash Cards</h3>
+        <p class="my-5">Click the button to start studying</p>
+        <a class="btn btn-primary" href="/study">Study Flash Cards</a>
+    </div>
+{% endblock %}
+
+<style>
+    .my-5 {
+        margin-bottom: 3rem; /* Adjust the value as needed */
+    }
+</style>
