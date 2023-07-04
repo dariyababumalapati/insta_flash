@@ -1,6 +1,6 @@
 import random
 
-from database_models import db, Flashcard, Study
+from database_models import db, Flashcard, Study, User
 
 def save_flashcards_to_database(flashcards, passage_id):
     for card in flashcards:
@@ -29,6 +29,11 @@ def get_random_flashcard():
     flashcard = Study.query.offset(random_index).first()
     return flashcard
 
+def save_user_instance(user_id):
+    user = User(user_id)
+    db.session.add(user)
+    db.session.commit()
 
 if __name__ == '__main__':
     print("database_actions module")
+ 

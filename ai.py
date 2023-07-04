@@ -2,13 +2,11 @@ import openai
 
 from config import API_KEY
 
-
 openai.api_key = API_KEY
-
 
 class PassageFlashcards:
     """
-    Represents a passage and provides methods to generate flashcards from it.
+    Represents a passage and provides methods to generate flashcards and a title from it.
     """
 
     def __init__(self, passage):
@@ -19,6 +17,7 @@ class PassageFlashcards:
         - passage (str): The passage text.
         """
         self.passage = passage
+        self.title = None
 
     def generate_flashcards(self):
         """
@@ -31,7 +30,7 @@ class PassageFlashcards:
         """
         prompt = f"""
         Create Anki flashcards from the given passage, specifying the note type as Basic
-        and limiting the Back card to a maximum of 10 words:
+        and limiting the Back card to a maximum of ten words:
 
         {self.passage}
         @foreach(card in flashcards)
@@ -84,6 +83,32 @@ class PassageFlashcards:
         if card:  # Append the last card if it is non-empty
             flashcard_dictionaries_list.append(card)
         return flashcard_dictionaries_list
+    
+    def generate_title(self):
+        """
+        Generate a title based on the passage.
+
+        Returns:
+        - title (str): The generated title.
+        """
+        prompt = f"""
+        Generate a concise title for the given passage:
+
+        {self.passage}
+        """
+
+        # Generate the title using the OpenAI library
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            max_tokens=30,
+            temperature=0.5,
+            n=1,
+            stop=None,
+        )
+
+        title = response.choices[0].text.strip()
+        return title
 
     def __str__(self):
         """
@@ -101,7 +126,7 @@ if __name__ == "__main__":
     """
 
     passage_flashcards = PassageFlashcards(passage_text)
-    flashcards = passage_flashcards.generate_flashcards(passage_text)
+    flashcards = passage_flashcards.generate_flashcards()
 
     for flashcard in flashcards:
         print(f"Question: {flashcard['front']}")

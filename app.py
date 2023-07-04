@@ -5,13 +5,16 @@ from database_actions import save_flashcards_to_database, copy_flashcards_to_stu
 
 from database_models import db, Study
 
-from passage_class import PassageToCards
+from passage_class import CommitToDatabase
 
 from process_answer import process_answer
 
+from config import APP_SECRET_KEY
+
+from user_id import generate_user_id
 
 app = Flask(__name__, static_url_path='/static')
-app.secret_key = 'insta_flash'  # Replace with your own secret key
+app.secret_key = APP_SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flashcards.db'  # Replace with your desired database URL
 bootstrap = Bootstrap(app)
 db.init_app(app)
@@ -27,13 +30,14 @@ def home():
 @app.route('/process_passage', methods=['POST'])
 def process_passage():
     # Retrieve the form data
+    user_id = generate_user_id(request)
+
     passage_content = request.form['passage']
-    screen_resolution = request.form['screenResolution']
 
-    passage_and_flashcards = PassageToCards(passage_content)
-    passage_and_flashcards.commit_passage_and_flashcards()
+    commit_to_database_obj = CommitToDatabase(user_id=user_id, passage_data=passage_content)
+    commit_to_database_obj.commit_user_passage_flashcards()
 
-    return render_template('result.html', numb_flashcards=passage_and_flashcards.num_flashcards)
+    return render_template('result.html', numb_flashcards=commit_to_database_obj.num_flashcards)
 
 @app.route('/study')
 def study():
