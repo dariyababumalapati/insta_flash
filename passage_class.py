@@ -2,14 +2,15 @@ from ai import PassageFlashcards
 
 from database_models import User, Passage, Study, Flashcard
 
-from database_actions import clear_study_table
+from database_actions import clear_study_table, create_or_get_user
 
 
 class CommitToDatabase:
 
-    def __init__(self, user_id, passage_data) -> None:
-        self.user_table_obj = User(user_id)
+    def __init__(self, user_id_code, passage_data) -> None:
+        self.user_id_code = user_id_code
         self.passage_ai_obj = PassageFlashcards(passage_data)
+        self.user_table_obj = None
         self.passage_id = None
         self.num_flashcards = None  # Get the number of flashcards created
 
@@ -21,7 +22,7 @@ class CommitToDatabase:
         self._copy_flashcards_to_study()
 
     def _user_to_database(self):
-        self.user_table_obj.save()
+        self.user_table_obj = create_or_get_user(self.user_id_code)
     
     def _passage_to_database(self):
         passage_title = self.passage_ai_obj.generate_title()

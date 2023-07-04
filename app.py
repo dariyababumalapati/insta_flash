@@ -34,7 +34,7 @@ def process_passage():
 
     passage_content = request.form['passage']
 
-    commit_to_database_obj = CommitToDatabase(user_id=user_id, passage_data=passage_content)
+    commit_to_database_obj = CommitToDatabase(user_id_code=user_id, passage_data=passage_content)
     commit_to_database_obj.commit_user_passage_flashcards()
 
     return render_template('result.html', numb_flashcards=commit_to_database_obj.num_flashcards)
