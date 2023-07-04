@@ -5,16 +5,16 @@ from database_models import User, Passage, Study, Flashcard
 from database_actions import clear_study_table
 
 
-class PassageToCards:
+class CommitToDatabase:
 
-    def __init__(self, passage_data, user_id) -> None:
-        self.passage_data = passage_data
+    def __init__(self, user_id, passage_data) -> None:
         self.user_table_obj = User(user_id)
+        self.passage_ai_obj = PassageFlashcards(passage_data)
         self.passage_id = None
         self.num_flashcards = None  # Get the number of flashcards created
 
         
-    def commit_passage_and_flashcards(self):
+    def commit_user_passage_flashcards(self):
         self._user_to_database()
         self._passage_to_database()
         self._flashcards_to_db()
@@ -25,13 +25,12 @@ class PassageToCards:
     
     def _passage_to_database(self):
         passage_title = self.passage_ai_obj.generate_title()
-        passage_transient = Passage(passage_content=self.passage_data, passage_title=passage_title, user_id= self.user_table_obj.id)
+        passage_transient = Passage(passage_content=self.passage_ai_obj.passage, passage_title=passage_title, user_id= self.user_table_obj.id)
         passage_transient.save()
         self.passage_id = passage_transient.id
     
     def _flashcards_to_db(self):
-        passage_ai_obj = PassageFlashcards(self.passage_data)
-        flashcard_transients = passage_ai_obj.generate_flashcards()
+        flashcard_transients = self.passage_ai_obj.generate_flashcards()
         for card in flashcard_transients:
             question = card['front']
             answer = card['back']

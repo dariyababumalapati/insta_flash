@@ -5,6 +5,7 @@ db = SQLAlchemy()
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(32), unique=True, nullable=False)
+    passages = db.relationship('Passage', backref='user', lazy=True)
     # Add other columns as needed
 
     def __init__(self, user_id):
@@ -17,12 +18,14 @@ class User(db.Model):
 
 class Passage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    passage_title = db.Column(db.Text)
     content = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     flashcards = db.relationship('Flashcard', backref='passage', lazy=True)
 
-    def __init__(self, content, user_id):
+    def __init__(self, content, passage_title, user_id):
         self.content = content
+        self.passage_title = passage_title
         self.user_id = user_id
 
     def save(self):
