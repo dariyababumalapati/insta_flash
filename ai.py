@@ -29,8 +29,7 @@ class PassageFlashcards:
                              the question and answer of the flashcard, respectively.
         """
         prompt = f"""
-        Create Anki flashcards from the given passage, specifying the note type as Basic
-        and limiting the Back card to a maximum of ten words:
+        Create Anki flashcards from the given passage.
 
         {self.passage}
         @foreach(card in flashcards)
@@ -121,6 +120,8 @@ class PassageFlashcards:
 
 
 if __name__ == "__main__":
+
+    # with open('blue_whale.txt', )
     passage_text = """
     Python is a popular programming language known for its simplicity and readability.
     """
