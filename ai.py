@@ -120,8 +120,13 @@ class PassageFlashcards:
         return f"PassageFlashcard(passage='{self.passage}')"
 
 
+
 if __name__ == "__main__":
-    passage_text = """
+
+    with open("blue_whale.txt", 'r') as f:
+        passage_text = f.read()
+        
+    passage_text2 = """
     Python is a popular programming language known for its simplicity and readability.
     """
 

@@ -23,8 +23,8 @@ class Passage(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     flashcards = db.relationship('Flashcard', backref='passage', lazy=True)
 
-    def __init__(self, content, passage_title, user_id):
-        self.content = content
+    def __init__(self, passage_content, passage_title, user_id):
+        self.content = passage_content
         self.passage_title = passage_title
         self.user_id = user_id
 
