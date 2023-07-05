@@ -9,7 +9,12 @@ def process_answer(card_id, action):
         if flashcard:
             db.session.delete(flashcard)  # Delete flashcard from the study table
             db.session.commit()
+        study_cards = Study.query.all()
 
+        if not study_cards:
+            session['no_flashcards'] = True  # Set session variable to indicate no more flashcards
+            return redirect(url_for('study'))
+            
     elif action == 'wrong':
         session['show_answer'] = False  # Reset session variable to hide answer
 

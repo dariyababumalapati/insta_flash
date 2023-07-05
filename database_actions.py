@@ -35,10 +35,12 @@ def copy_flashcards_to_study(passage_id):
 
 def get_random_flashcard():
     count = Study.query.count()
-    random_index = random.randint(0, count - 1)
-    flashcard = Study.query.offset(random_index).first()
-    return flashcard
-
+    if count > 0:
+        random_index = random.randint(0, count - 1)
+        flashcard = Study.query.offset(random_index).first()
+        return flashcard
+    else:
+        return None
 def save_user_instance(user_id):
     user = User(user_id)
     db.session.add(user)

@@ -24,7 +24,11 @@
                 {% endif %}
             </form>
         {% else %}
-            <p class="text-center" id="cards-complete">No flashcards available for study.</p>
+            {% if session.get('no_flashcards') %}
+                <p class="text-center" id="cards-complete">No flashcards available for study.</p>
+            {% else %}
+                <p class="text-center" id="cards-complete"></p>
+            {% endif %}
         {% endif %}
     </div>
     <script src="static/js/study.js"></script>
